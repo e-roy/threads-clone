@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ThreadsUser } from "threads-api";
 import { Instagram } from "lucide-react";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { VerifiedIcon } from "@/components/icons/VerifiedIcon";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -45,7 +46,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
             </span>
           </div>
         </div>
-        <div className={`w-24`}>
+        <div className={`w-24 relative`}>
           <Image
             className="rounded-full"
             src={user.profile_pic_url}
@@ -53,6 +54,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
             width={350}
             height={350}
           />
+          {user.is_verified && (
+            <span
+              className={`absolute -mt-5 ml-1 text-zinc-100 dark:text-zinc-900`}
+            >
+              <VerifiedIcon size={`MEDIUM`} />
+            </span>
+          )}
         </div>
       </div>
 

@@ -1,12 +1,26 @@
-export const VerifiedIcon = () => {
+// components/icons/VerifiedIcon.tsx
+
+enum IconSize {
+  SMALL = "16",
+  MEDIUM = "24",
+}
+
+interface VerifiedIconProps {
+  size?: keyof typeof IconSize;
+}
+
+export const VerifiedIcon: React.FC<VerifiedIconProps> = ({
+  size = "SMALL",
+}) => {
+  const iconSize = IconSize[size];
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width={iconSize}
+      height={iconSize}
       viewBox="0 0 24 24"
       fill="#0095F6"
-      stroke="#fff"
+      stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
