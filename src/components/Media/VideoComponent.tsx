@@ -26,6 +26,7 @@ export const VideoComponent: React.FC<{ source: any }> = ({ source }) => {
     videoRef.current && observer.observe(videoRef.current);
 
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       videoRef.current && observer.unobserve(videoRef.current);
     };
   }, []);

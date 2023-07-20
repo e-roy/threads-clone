@@ -1,4 +1,3 @@
-import { Thread } from "react-threads";
 import { Thread as ThreadPost, ThreadsAPI } from "threads-api";
 const threadsAPI = new ThreadsAPI();
 
@@ -28,5 +27,4 @@ export default async function Page({
   const thread: ThreadPost | null = await getData(threadID);
   console.log("thread", thread);
   return null;
-  // return <>{thread && <Thread thread={thread} />}</>;
 }
