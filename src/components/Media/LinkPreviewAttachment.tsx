@@ -1,4 +1,4 @@
-// components/Threads/LinkPreviewAttachment.tsx
+// components/Media/LinkPreviewAttachment.tsx
 
 import Image from "next/image";
 
@@ -24,23 +24,28 @@ export const LinkPreviewAttachment = ({
   };
   return (
     <div
-      className={`border rounded-lg mt-4 mb-2 cursor-pointer`}
+      className={`border-2 rounded-lg mb-2 cursor-pointer`}
       onClick={handleLinkClick}
     >
-      <Image
-        src={linkPreviewAttachment.image_url}
-        alt={linkPreviewAttachment.title}
-        width={800}
-        height={800}
+      <div
+        className={`relative rounded-t-lg`}
         style={{
-          objectFit: "contain",
-          width: "100%",
-          height: "unset",
-          position: "relative",
-          backgroundPosition: "center",
+          overflow: "hidden",
+          height: "250px",
         }}
-        className={`rounded-t-lg`}
-      />
+      >
+        <Image
+          src={linkPreviewAttachment.image_url}
+          alt={linkPreviewAttachment.title}
+          width={800}
+          height={800}
+          className={`rounded-t-lg absolute`}
+          style={{
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+        />
+      </div>
 
       <div className={`p-4`}>
         <div className={`text-sm text-zinc-500 dark:text-zinc-600`}>

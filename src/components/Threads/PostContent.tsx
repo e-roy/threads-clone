@@ -1,10 +1,12 @@
 // components/Threads/PostContent.tsx
 
 import Image from "next/image";
-import { LinkPreviewAttachment } from "./LinkPreviewAttachment";
+import {
+  LinkPreviewAttachment,
+  CarouselComponent,
+  VideoComponent,
+} from "@/components/Media";
 import { Post } from "threads-api";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface IPostContentProps {
   post: Post;
@@ -12,67 +14,48 @@ interface IPostContentProps {
 
 export const PostContent: React.FC<IPostContentProps> = ({ post }) => {
   // console.log("post content =====>", post);
+
+  const {
+    caption,
+    carousel_media,
+    video_versions,
+    image_versions2,
+    user,
+    text_post_app_info,
+  } = post;
+
+  const { candidates = [] } = image_versions2;
+  const { link_preview_attachment = null } = text_post_app_info;
+
   return (
     <>
-      <div
-        className={`whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words  `}
-      >
-        {post.caption?.text}
+      <div className="whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words">
+        {caption?.text}
       </div>
-      {post.carousel_media ? (
-        <Carousel
-          showArrows={true}
-          showStatus={false}
-          useKeyboardArrows={true}
-          swipeable={true}
-          emulateTouch={true}
-          showThumbs={false}
-          showIndicators={false}
-          className="carousel-container"
-        >
-          {post.carousel_media.map((media: any) => (
-            <div key={media.id} className="carousel-item">
-              <div className="aspect-content">
-                <Image
-                  src={media.image_versions2.candidates[0].url}
-                  alt={post.user.username}
-                  width={media.original_width}
-                  height={media.original_height}
-                  // height={400}
-                  className="carousel-image"
-                />
-              </div>
-            </div>
-          ))}
-        </Carousel>
-      ) : (
-        <>
-          {post.image_versions2.candidates.length > 0 && (
+      <div className={`mt-2`}>
+        {carousel_media ? (
+          <CarouselComponent carousel_media={carousel_media} />
+        ) : video_versions.length > 0 ? (
+          <VideoComponent source={video_versions} />
+        ) : (
+          candidates.length > 0 && (
             <div>
               <Image
-                src={post.image_versions2.candidates[0].url}
-                alt={post.user.username}
-                width={post.image_versions2.candidates[0].width}
-                height={post.image_versions2.candidates[0].height}
-                className={`rounded-md shadow mt-2`}
+                src={candidates[0].url}
+                alt={user.username}
+                width={candidates[0].width}
+                height={candidates[0].height}
+                className="rounded-md shadow mt-2"
               />
             </div>
-          )}
-        </>
-      )}
-
-      {/* {post.video_versions.length > 0 && (
-            <div>
-              <VideoComponent source={post.video_versions[0]} />
-            </div>
-          )} */}
-      {post.text_post_app_info.link_preview_attachment && (
-        <LinkPreviewAttachment
-          linkPreviewAttachment={
-            post.text_post_app_info.link_preview_attachment
-          }
-        />
-      )}
+          )
+        )}
+        {link_preview_attachment && (
+          <LinkPreviewAttachment
+            linkPreviewAttachment={link_preview_attachment}
+          />
+        )}
+      </div>
     </>
   );
 };
