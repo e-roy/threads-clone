@@ -1,6 +1,7 @@
 // components/Threads/PostContent.tsx
 
 import Image from "next/image";
+import Link from "next/link";
 import {
   LinkPreviewAttachment,
   CarouselComponent,
@@ -29,33 +30,35 @@ export const PostContent: React.FC<IPostContentProps> = ({ post }) => {
 
   return (
     <>
-      <div className="whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words">
-        {caption?.text}
-      </div>
-      <div className={`mt-2`}>
-        {carousel_media ? (
-          <CarouselComponent carousel_media={carousel_media} />
-        ) : video_versions.length > 0 ? (
-          <VideoComponent source={video_versions} />
-        ) : (
-          candidates.length > 0 && (
-            <div>
-              <Image
-                src={candidates[0].url}
-                alt={user.username}
-                width={candidates[0].width}
-                height={candidates[0].height}
-                className="rounded-md shadow mt-2"
-              />
-            </div>
-          )
-        )}
-        {link_preview_attachment && (
-          <LinkPreviewAttachment
-            linkPreviewAttachment={link_preview_attachment}
-          />
-        )}
-      </div>
+      <Link href={`/t/${post.code}`}>
+        <div className="whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words">
+          {caption?.text}
+        </div>
+        <div className={`mt-2`}>
+          {carousel_media ? (
+            <CarouselComponent carousel_media={carousel_media} />
+          ) : video_versions.length > 0 ? (
+            <VideoComponent source={video_versions} />
+          ) : (
+            candidates.length > 0 && (
+              <div>
+                <Image
+                  src={candidates[0].url}
+                  alt={user.username}
+                  width={candidates[0].width}
+                  height={candidates[0].height}
+                  className="rounded-md shadow mt-2"
+                />
+              </div>
+            )
+          )}
+          {link_preview_attachment && (
+            <LinkPreviewAttachment
+              linkPreviewAttachment={link_preview_attachment}
+            />
+          )}
+        </div>
+      </Link>
     </>
   );
 };

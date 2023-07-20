@@ -1,18 +1,18 @@
-import { Thread as ThreadPost, ThreadsAPI } from "threads-api";
+import { Thread, Thread as ThreadPost, ThreadsAPI } from "threads-api";
+// import { thread } from "@/data/thread-post";
+import { PostHeader } from "@/components/Post/PostHeader";
+
 const threadsAPI = new ThreadsAPI();
 
 async function getData(threadID: string) {
   try {
-    // const postID = await threadsAPI.getPostIDfromThreadID(threadID);
-    // console.log("postID", postID);
+    const postID = await threadsAPI.getPostIDfromThreadID(threadID);
 
-    return null;
-    // if (!postID) return null;
-    // const thread = await threadsAPI.getThreads(postID);
-    // if (!thread) return null;
-    // const { containing_thread } = thread;
+    if (!postID) return null;
+    const thread = await threadsAPI.getThreads(postID);
+    if (!thread) return null;
 
-    // return containing_thread;
+    return { thread };
   } catch (e) {
     console.log(e);
     return null;
@@ -24,7 +24,15 @@ export default async function Page({
 }: {
   params: { threadID: string };
 }) {
-  const thread: ThreadPost | null = await getData(threadID);
-  console.log("thread", thread);
-  return null;
+  const thread = await getData(threadID);
+
+  if (!thread) return <div>404</div>;
+
+  return (
+    <div className={`max-w-[620px] flex flex-col justify-center m-auto`}>
+      <PostHeader
+        thread={thread.thread.containing_thread as unknown as Thread}
+      />
+    </div>
+  );
 }

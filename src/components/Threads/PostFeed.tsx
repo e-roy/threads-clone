@@ -102,7 +102,7 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
   // console.log("line_type", line_type);
   return (
     <>
-      <div className={`flex space-x-4`}>
+      <div className={`flex space-x-4 mt-2`}>
         <div className={`flex flex-col space-y-4`}>
           <Image
             className="rounded-full"
@@ -114,7 +114,7 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
           {line_type === "line" && (
             <div className={`grid grid-cols-2 grow`}>
               <div
-                className={`border-r-2 border-zinc-300 dark:border-zinc-200`}
+                className={`border-r-2 border-zinc-300 dark:border-zinc-700`}
               />
               <div />
             </div>
@@ -146,12 +146,18 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
           <div className={`h-5`} />
         </div>
         <div className={`w-full`}>
-          <div className={`flex justify-between`}>
+          <div className={`flex justify-between -mt-2`}>
             <div
-              className={`flex font-semibold text-zinc-900 dark:text-zinc-100 hover:underline`}
+              className={`flex font-semibold text-zinc-900 dark:text-zinc-100 hover:underline my-auto`}
             >
               <Link href={`/${post.user.username}`}>{post.user.username}</Link>
-              {post.user.is_verified && <VerifiedIcon />}
+              {post.user.is_verified && (
+                <span
+                  className={`m-auto pl-1 text-zinc-100 dark:text-zinc-900`}
+                >
+                  <VerifiedIcon />
+                </span>
+              )}
             </div>
             <div
               className={`font-light text-zinc-600 dark:text-zinc-400 flex space-x-4`}
