@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
+import { formatFollowCount } from "@/lib/format-follow-count";
 
 type ProfileHeaderProps = {
   user: ThreadsUser;
@@ -61,7 +62,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
       <div className="text-sm text-zinc-400 dark:text-zinc-400 mt-4 flex w-full">
         <div className={`w-full`}>
           <span className={`hover:underline cursor-pointer`}>
-            {user.follower_count} followers
+            {formatFollowCount(user.follower_count)} followers
           </span>{" "}
           ·{" "}
           <a

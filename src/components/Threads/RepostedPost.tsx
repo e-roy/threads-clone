@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Post as PostType } from "threads-api";
 import * as timeago from "timeago.js";
 import { VerifiedIcon } from "@/components/icons/VerifiedIcon";
+import { PostContent } from "./PostContent";
 
 interface Props {
   post: PostType;
@@ -45,11 +46,12 @@ export const RepostedPost: React.FC<Props> = ({ post }) => {
             </span>
           </div>
         </div>
-        <div
+        <PostContent post={post} />
+        {/* <div
           className={`whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words text-sm`}
         >
           {post.caption?.text}
-        </div>
+        </div> */}
 
         <div className={`flex space-x-4 mt-2 text-sm`}>
           {post.text_post_app_info.direct_reply_count && (
