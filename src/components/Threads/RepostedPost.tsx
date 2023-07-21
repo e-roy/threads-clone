@@ -46,18 +46,21 @@ export const RepostedPost: React.FC<Props> = ({ post }) => {
             </span>
           </div>
         </div>
-        <PostContent post={post} />
 
-        <div className={`flex space-x-4 mt-2 text-sm`}>
-          {post.text_post_app_info.direct_reply_count && (
-            <div className={commonStyles}>
-              {post.text_post_app_info.direct_reply_count} replies
-            </div>
-          )}
-          {post.like_count > 0 && (
-            <div className={commonStyles}>{post.like_count} likes</div>
-          )}
-        </div>
+        <Link href={`/t/${post.code}`}>
+          <PostContent post={post} />
+
+          <div className={`flex space-x-4 mt-2 text-sm`}>
+            {post.text_post_app_info.direct_reply_count && (
+              <div className={commonStyles}>
+                {post.text_post_app_info.direct_reply_count} replies
+              </div>
+            )}
+            {post.like_count > 0 && (
+              <div className={commonStyles}>{post.like_count} likes</div>
+            )}
+          </div>
+        </Link>
       </div>
     </div>
   );

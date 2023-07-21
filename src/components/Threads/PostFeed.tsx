@@ -33,10 +33,9 @@ import { RepostedPost } from "./RepostedPost";
 export const PostFeed = ({ posts }: { posts: ThreadType[] }) => {
   // console.log(posts);
   // console.log("posts ====>", JSON.stringify(posts, null, 2));
-
   return (
     <div className="w-full">
-      {posts.map((post) => (
+      {posts.map((post: ThreadType) => (
         <Post post={post} key={post.id} />
       ))}
     </div>
@@ -44,7 +43,7 @@ export const PostFeed = ({ posts }: { posts: ThreadType[] }) => {
 };
 
 const Post = ({ post }: { post: ThreadType }) => {
-  // console.log("post", post);
+  if (!post.thread_items[0]) return null;
 
   const { quoted_post, reposted_post } =
     post.thread_items[0].post.text_post_app_info.share_info;
@@ -52,38 +51,37 @@ const Post = ({ post }: { post: ThreadType }) => {
   if (reposted_post && "id" in reposted_post)
     return (
       <div className={`border-b mb-4 pb-4`}>
-        <div className={`flex space-x-4 mb-2 text-zinc-500`}>
-          <div className={`ml-5 my-auto`}>
-            <Repeat className={`h-4 w-4`} />
-          </div>
-          <div>{post.thread_items[0].post.user.username} reposted</div>
-        </div>
+        <RepostInfo post={post} />
         <RepostedPost post={reposted_post as PostType} />
       </div>
     );
 
-  const initialPost = post.thread_items[0];
-  const replyPost = post.thread_items[1];
-
   return (
     <div className={`border-b mb-4 pb-4`}>
-      {reposted_post && (
-        <div className={`flex space-x-4 mb-2 text-zinc-500`}>
-          <div className={`ml-5 my-auto`}>
-            <Repeat className={`h-4 w-4`} />
-          </div>
-          <div>{post.thread_items[0].post.user.username} reposted</div>
-        </div>
-      )}
-      <PostItem threadItem={initialPost} />
-      {replyPost && <PostItem threadItem={replyPost} />}
+      {post.thread_items.map((threadItem: ThreadItem) => (
+        <PostItem threadItem={threadItem} key={threadItem.post.id} />
+      ))}
     </div>
   );
 };
 
+const RepostInfo = ({ post }: { post: ThreadType }) => (
+  <div className={`flex space-x-4 mb-2 text-zinc-500`}>
+    <div className={`ml-5 my-auto`}>
+      <Repeat className={`h-4 w-4`} />
+    </div>
+    <div>{post.thread_items[0].post.user.username} reposted</div>
+  </div>
+);
+
 const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
-  const { line_type, post, view_replies_cta_string, reply_facepile_users } =
-    threadItem;
+  const {
+    line_type,
+    post,
+    should_show_replies_cta,
+    view_replies_cta_string,
+    reply_facepile_users,
+  } = threadItem;
 
   const { quoted_post, reposted_post } = post.text_post_app_info.share_info;
 
@@ -97,9 +95,7 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
     },
     [toast]
   );
-  // console.log("threadItem", threadItem);
-  // console.log("post", post);
-  // console.log("line_type", line_type);
+
   return (
     <>
       <div className={`flex space-x-4 mt-2`}>
@@ -128,22 +124,24 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
             </div>
           )}
           {reply_facepile_users && (
-            <div className={`relative ml-4`}>
-              {reply_facepile_users.slice(0, 2).map((user, index) => (
-                <Image
-                  key={user.profile_pic_url}
-                  className={`rounded-full absolute border-2 ${
-                    index !== 0 && "-left-4 -z-10"
-                  }`}
-                  src={user.profile_pic_url}
-                  alt={`avatar`}
-                  width={24}
-                  height={24}
-                />
-              ))}
-            </div>
+            <>
+              <div className={`relative ml-4`}>
+                {reply_facepile_users.slice(0, 2).map((user, index) => (
+                  <Image
+                    key={user.profile_pic_url}
+                    className={`rounded-full absolute border-2 ${
+                      index !== 0 && "-left-4 -z-10"
+                    }`}
+                    src={user.profile_pic_url}
+                    alt={`avatar`}
+                    width={24}
+                    height={24}
+                  />
+                ))}
+              </div>
+              <div className={`h-5`} />
+            </>
           )}
-          <div className={`h-5`} />
         </div>
         <div className={`w-full`}>
           <div className={`flex justify-between -mt-2`}>
@@ -188,29 +186,33 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
             </div>
           </div>
 
-          <PostContent post={post} />
+          <Link href={`/t/${post.code}`}>
+            <PostContent post={post} />
+          </Link>
 
           {quoted_post && <SharedCard post={quoted_post} />}
 
-          <PostActions />
+          <Link href={`/t/${post.code}`}>
+            <PostActions />
 
-          <div
-            className={`flex space-x-4 mt-2 text-zinc-400 dark:text-zinc-400`}
-          >
-            {view_replies_cta_string && (
-              <div className={`hover:underline hover:cursor-pointer mb-4`}>
-                {view_replies_cta_string}
-              </div>
-            )}
-            {view_replies_cta_string && post.like_count > 0 && (
-              <span className={``}>·</span>
-            )}
-            {post.like_count > 0 && (
-              <div className={`hover:underline hover:cursor-pointer mb-4`}>
-                {post.like_count} likes
-              </div>
-            )}
-          </div>
+            <div
+              className={`flex space-x-4 mt-2 mb-4 text-zinc-400 dark:text-zinc-400`}
+            >
+              {should_show_replies_cta && (
+                <div className={`hover:underline hover:cursor-pointer`}>
+                  {view_replies_cta_string}
+                </div>
+              )}
+              {should_show_replies_cta && post.like_count > 0 && (
+                <span className={``}>·</span>
+              )}
+              {post.like_count > 0 && (
+                <div className={`hover:underline hover:cursor-pointer`}>
+                  {post.like_count} likes
+                </div>
+              )}
+            </div>
+          </Link>
         </div>
       </div>
     </>

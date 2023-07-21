@@ -1,4 +1,4 @@
-import { ThreadsAPI, ThreadsUser, Thread as ThreadType } from "threads-api";
+import { ThreadsAPI } from "threads-api";
 import { ProfileHeader } from "@/components/Profile/ProfileHeader";
 import { ProfileNav } from "@/components/Profile/ProfileNav";
 import { PostFeed } from "@/components/Threads/PostFeed";
@@ -7,13 +7,16 @@ async function getUser(username: string) {
   const threadsAPI = new ThreadsAPI({ verbose: true });
 
   const userID = await threadsAPI.getUserIDfromUsername(username);
+
   if (!userID) {
-    return;
+    return { user: null, posts: null };
   }
 
   try {
     const user = await threadsAPI.getUserProfile(userID);
+    // console.log("user", user);
     const posts = await threadsAPI.getUserProfileThreads(userID);
+    // console.log("posts", posts);
     return { user, posts };
   } catch (e) {
     console.log(e);
@@ -38,8 +41,12 @@ export default async function Page({
   return (
     <>
       <div className={`max-w-[620px] flex flex-col justify-center m-auto`}>
-        <ProfileHeader user={user} />
-        <ProfileNav user={user} />
+        {user && (
+          <>
+            <ProfileHeader user={user} />
+            <ProfileNav user={user} />
+          </>
+        )}
         {posts && <PostFeed posts={posts} />}
       </div>
     </>
