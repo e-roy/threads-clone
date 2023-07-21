@@ -18,7 +18,7 @@ export const Header = () => {
   }
 
   return (
-    <div className="flex justify-center h-20">
+    <div className="flex justify-center h-20 bg-transparent">
       <button onClick={toggleTheme} className="duration-200">
         <Sun className="h-10 w-10 hover:scale-105 duration-300" />
       </button>
