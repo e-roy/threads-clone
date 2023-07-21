@@ -1,4 +1,4 @@
-import { ThreadsUser, ThreadsAPI } from "threads-api";
+import { ThreadsAPI } from "threads-api";
 import { ProfileHeader } from "@/components/Profile/ProfileHeader";
 import { ProfileNav } from "@/components/Profile/ProfileNav";
 import { PostFeed } from "@/components/Threads/PostFeed";
@@ -32,13 +32,17 @@ export default async function Page({
   const query = await getUser(username);
   const { user, replies } = query || {};
 
-  if (!user) return null;
+  // if (!user) return null;
 
   return (
     <>
       <div className={`max-w-[620px] flex flex-col justify-center m-auto`}>
-        <ProfileHeader user={user} />
-        <ProfileNav user={user} />
+        {user && (
+          <>
+            <ProfileHeader user={user} />
+            <ProfileNav user={user} />
+          </>
+        )}
         {replies && <PostFeed posts={replies} />}
       </div>
     </>

@@ -29,6 +29,7 @@ export const PostHeader = ({ thread }: { thread: Thread }) => {
     },
     [toast]
   );
+  // console.log("thread", thread);
 
   const post = thread.thread_items[0].post;
 
@@ -37,7 +38,7 @@ export const PostHeader = ({ thread }: { thread: Thread }) => {
   return (
     <div>
       <div className={`flex justify-between`}>
-        <div className={`flex`}>
+        <div className={`flex mb-2`}>
           <Image
             className="rounded-full"
             src={post.user.profile_pic_url}
