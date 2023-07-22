@@ -19,10 +19,12 @@ export const ProfileNav = ({ user }: ProfileNavProps) => {
     () => [
       {
         name: "Threads",
+        id: "threads",
         href: `/${user.username}`,
       },
       {
         name: "Replies",
+        id: "replies",
         href: `/${user.username}/replies`,
       },
     ],
@@ -35,7 +37,7 @@ export const ProfileNav = ({ user }: ProfileNavProps) => {
         {navItems.map((item) => (
           <Link
             href={item.href}
-            key={item.href}
+            key={item.id}
             className={cn(
               "w-full text-center pt-2 h-full",
               pathname === item.href
