@@ -71,16 +71,21 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
         <div className={`w-full`}>
           <span className={`hover:underline cursor-pointer`}>
             {formatFollowCount(user.follower_count)} followers
-          </span>{" "}
-          ·{" "}
-          <a
-            href={user.bio_links[0].url}
-            target="_blank"
-            rel="noreferrer noopener"
-            className={`hover:underline w-full`}
-          >
-            {user.bio_links[0].url}
-          </a>
+          </span>
+          {user.bio_links[0] && user.bio_links[0].url && (
+            <>
+              {" "}
+              ·{" "}
+              <a
+                href={user.bio_links[0].url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className={`hover:underline w-full`}
+              >
+                {user.bio_links[0].url}
+              </a>
+            </>
+          )}
         </div>
         <div className={`flex space-x-4 text-zinc-900 dark:text-zinc-100`}>
           <a

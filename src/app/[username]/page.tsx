@@ -4,7 +4,7 @@ import { ProfileNav } from "@/components/Profile/ProfileNav";
 import { PostFeed } from "@/components/Threads/PostFeed";
 
 async function getUser(username: string) {
-  const threadsAPI = new ThreadsAPI({ verbose: true });
+  const threadsAPI = new ThreadsAPI();
 
   const userID = await threadsAPI.getUserIDfromUsername(username);
 
