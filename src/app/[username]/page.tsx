@@ -6,18 +6,16 @@ import { PostFeed } from "@/components/Threads/PostFeed";
 const threadsAPI = new ThreadsAPI();
 
 async function getUser(username: string) {
-  const userID = await threadsAPI.getUserIDfromUsername(username);
-
-  if (!userID) {
-    return { user: null, posts: null };
-  }
-
   try {
+    const userID = await threadsAPI.getUserIDfromUsername(username);
+    if (!userID) return { user: null, posts: null };
     const user = await threadsAPI.getUserProfile(userID);
+    if (!user) return { user: null, posts: null };
     const posts = await threadsAPI.getUserProfileThreads(userID);
+    if (!posts) return { user, posts: null };
     return { user, posts };
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return { user: null, posts: null };
   }
 
