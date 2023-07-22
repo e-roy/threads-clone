@@ -3,9 +3,9 @@ import { ProfileHeader } from "@/components/Profile/ProfileHeader";
 import { ProfileNav } from "@/components/Profile/ProfileNav";
 import { PostFeed } from "@/components/Threads/PostFeed";
 
-async function getUser(username: string) {
-  const threadsAPI = new ThreadsAPI();
+const threadsAPI = new ThreadsAPI();
 
+async function getUser(username: string) {
   const userID = await threadsAPI.getUserIDfromUsername(username);
 
   if (!userID) {
@@ -14,9 +14,7 @@ async function getUser(username: string) {
 
   try {
     const user = await threadsAPI.getUserProfile(userID);
-    // console.log("user", user);
     const posts = await threadsAPI.getUserProfileThreads(userID);
-    // console.log("posts", posts);
     return { user, posts };
   } catch (e) {
     console.log(e);
