@@ -36,7 +36,11 @@ export const RepostedPost: React.FC<Props> = ({ post }) => {
             className={`flex font-semibold text-zinc-900 dark:text-zinc-100 hover:underline`}
           >
             <Link href={`/${user.username}`}>{user.username}</Link>
-            {user.is_verified && <VerifiedIcon />}
+            {user.is_verified && (
+              <span className={`m-auto pl-1 text-zinc-100 dark:text-zinc-900`}>
+                <VerifiedIcon />
+              </span>
+            )}
           </div>
           <div
             className={`font-light text-zinc-600 dark:text-zinc-400 flex space-x-4`}

@@ -64,7 +64,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
         </div>
       </div>
 
-      <div className="text-base text-zinc-900 dark:text-zinc-100 mt-4 whitespace-pre">
+      <div className="text-base text-zinc-900 dark:text-zinc-100 mt-4 whitespace-pre-line break-words">
         {user.biography}
       </div>
       <div className="text-sm text-zinc-400 dark:text-zinc-400 mt-4 flex w-full">
@@ -99,6 +99,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
+                id={`profile-menu`}
                 size={"icon"}
                 variant="outline"
                 className="flex hover:scale-105 border-2 border-zinc-900 dark:border-zinc-100 rounded-full data-[state=open]:bg-muted"

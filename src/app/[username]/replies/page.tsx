@@ -1,27 +1,36 @@
 import { ThreadsAPI } from "threads-api";
-import { ProfileHeader } from "@/components/Profile/ProfileHeader";
-import { ProfileNav } from "@/components/Profile/ProfileNav";
 import { PostFeed } from "@/components/Threads/PostFeed";
+import { Loading, MessageCard } from "@/components/Messages";
+import { Suspense } from "react";
 
 const threadsAPI = new ThreadsAPI();
 
-async function getUser(username: string) {
-  const userID = await threadsAPI.getUserIDfromUsername(username);
-  if (!userID) {
-    return;
-  }
-
+async function getUserId(username: string) {
+  // console.log("getUserId replies.tsx");
   try {
-    const user = await threadsAPI.getUserProfile(userID);
-    const replies = await threadsAPI.getUserProfileReplies(userID);
-    return { user, replies };
+    const userID = await threadsAPI.getUserIDfromUsername(username);
+    if (!userID) return null;
+    return userID;
   } catch (e) {
-    console.log(e);
-    return { user: null, replies: null };
+    return null;
   }
+}
 
-  // console.log("user ====>", JSON.stringify(user, null, 2));
-  // console.log("posts ====>", JSON.stringify(posts, null, 2));
+async function getUserReplies(userID: string) {
+  try {
+    const posts = await threadsAPI.getUserProfileReplies(userID);
+    if (!posts) return null;
+    return posts;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function UserReplies({ userID }: { userID: string }) {
+  const posts = await getUserReplies(userID);
+  if (!posts || posts.length === 0)
+    return <MessageCard message={`No replies yet.`} />;
+  return <PostFeed posts={posts} />;
 }
 
 export default async function Page({
@@ -29,22 +38,15 @@ export default async function Page({
 }: {
   params: { username: string };
 }) {
-  const query = await getUser(username);
-  const { user, replies } = query || {};
+  const userID = await getUserId(username);
 
-  // if (!user) return null;
+  if (!userID) return null;
 
   return (
     <>
-      <div className={`max-w-[620px] flex flex-col justify-center m-auto`}>
-        {user && (
-          <>
-            <ProfileHeader user={user} />
-            <ProfileNav user={user} />
-          </>
-        )}
-        {replies && <PostFeed posts={replies} />}
-      </div>
+      <Suspense fallback={<Loading />}>
+        <UserReplies userID={userID} />
+      </Suspense>
     </>
   );
 }

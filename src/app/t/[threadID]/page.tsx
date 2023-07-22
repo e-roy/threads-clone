@@ -2,12 +2,14 @@ import { Thread, ThreadsAPI } from "threads-api";
 import { PostHeader } from "@/components/Post/PostHeader";
 import { PostActions } from "@/components/Threads/PostActions";
 import { PostFeed } from "@/components/Threads/PostFeed";
+import { MessageCard, Loading } from "@/components/Messages";
+import { Suspense } from "react";
 
 const threadsAPI = new ThreadsAPI();
 
 async function getData(threadID: string) {
   try {
-    const postID = await threadsAPI.getPostIDfromThreadID(threadID);
+    const postID = threadsAPI.getPostIDfromThreadID(threadID);
 
     if (!postID) return null;
     const thread = await threadsAPI.getThreads(postID);
@@ -15,7 +17,7 @@ async function getData(threadID: string) {
 
     return { ...thread };
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return null;
   }
 }
@@ -27,7 +29,7 @@ export default async function Page({
 }) {
   const thread = await getData(threadID);
 
-  if (!thread) return <div>404</div>;
+  if (!thread) return <MessageCard message={`Thread Not Found`} />;
 
   const { containing_thread, reply_threads } = thread;
   const { post, view_replies_cta_string } = containing_thread.thread_items[0];
@@ -52,7 +54,9 @@ export default async function Page({
         )}
       </div>
       <div className={`border-b-2`} />
-      {reply_threads && <PostFeed posts={reply_threads} />}
+      <Suspense fallback={<Loading />}>
+        {reply_threads && <PostFeed posts={reply_threads} />}
+      </Suspense>
     </div>
   );
 }

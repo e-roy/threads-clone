@@ -1,13 +1,30 @@
 // lib/three-utils.ts
-const MIN_RADIUS = 7.5;
+const MIN_RADIUS = 2;
 const MAX_RADIUS = 15;
-const DEPTH = 2;
+const DEPTH = 3;
 const LEFT_COLOR = "f79A00";
 const RIGHT_COLOR = "fd12d1";
-const NUM_POINTS = 2000;
+const NUM_POINTS = 4000;
+const SWIRL_FACTOR = 0.1; // Determines how much 'swirl' the galaxy has
 
+let maxRadius = 10;
+let spiralFactor = maxRadius / (2 * Math.PI);
+let points: [number, number][] = [];
+
+for (let i = 0; i < NUM_POINTS; ++i) {
+  let fraction = i / NUM_POINTS;
+  let angle = 2 * Math.PI * fraction * 2.75; // The factor of 10 controls the number of spiral loops
+  let radius = fraction * spiralFactor * 11; // The factor of 10 ensures the spiral reaches to the edge of the plot
+  let x = radius * Math.cos(angle);
+  let y = radius * Math.sin(angle);
+  points.push([x, y]);
+}
 const randomFromInterval = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
+
+const randomNumberVariant = (): number => {
+  return Math.random() * 3 - 0.2;
+};
 
 const getGradientStop = (ratio: number): string => {
   ratio = ratio > 1 ? 1 : ratio < 0 ? 0 : ratio;
@@ -51,12 +68,17 @@ export const pointsInner: Point[] = Array.from(
   { length: NUM_POINTS },
   (_, k) => k + 1
 ).map((i): Point => {
-  const randomeRadius = randomFromInterval(MIN_RADIUS, MAX_RADIUS);
-  const randomAngle = Math.random() * 2 * Math.PI;
+  const randomRadius = randomFromInterval(MIN_RADIUS, MAX_RADIUS);
+  const randomAngle = i * SWIRL_FACTOR; // Adjust the angle calculation
+  const totalDepth = DEPTH - 2;
 
-  const x = Math.cos(randomAngle) * randomeRadius;
-  const y = Math.sin(randomAngle) * randomeRadius;
-  const z = randomFromInterval(-DEPTH, DEPTH);
+  const x = points[i]
+    ? points[i][0] + randomNumberVariant()
+    : randomRadius * Math.cos(randomAngle);
+  const y = points[i]
+    ? points[i][1] + randomNumberVariant()
+    : randomRadius * Math.sin(randomAngle);
+  const z = randomFromInterval(-totalDepth, totalDepth);
 
   const color = calculateColor(x, y);
 
@@ -68,7 +90,7 @@ export const pointsInner: Point[] = Array.from(
 });
 
 export const pointsOuter: Point[] = Array.from(
-  { length: NUM_POINTS / 4 },
+  { length: NUM_POINTS / 8 },
   (_, k) => k + 1
 ).map((i): Point => {
   const randomeRadius = randomFromInterval(MIN_RADIUS / 2, MAX_RADIUS * 3);
@@ -76,7 +98,7 @@ export const pointsOuter: Point[] = Array.from(
 
   const x = Math.cos(randomAngle) * randomeRadius;
   const y = Math.sin(randomAngle) * randomeRadius;
-  const z = randomFromInterval(-DEPTH * 10, DEPTH * 10);
+  const z = randomFromInterval(-DEPTH * 5, DEPTH * 5);
 
   const color = calculateColor(x, y);
 

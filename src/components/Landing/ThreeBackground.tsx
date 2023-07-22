@@ -9,7 +9,6 @@ import { pointsInner, pointsOuter } from "@/lib/three-utils";
 
 export const ThreeBackground = () => {
   return (
-    // <div className="relative">
     <Canvas
       camera={{ position: [0, -6.5, 20] }}
       className="bg-[#101010]"
@@ -20,7 +19,6 @@ export const ThreeBackground = () => {
       <pointLight position={[0, -7, 30]} power={10.0} />
       <PointCircle />
     </Canvas>
-    // </div>
   );
 };
 
