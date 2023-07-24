@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { VideoComponent } from "./VideoComponent";
 
 export const CarouselComponent: React.FC<{ carousel_media: any }> = ({
   carousel_media,
 }) => {
-  //   console.log("carousel_media =====>", carousel_media);
   return (
     <Carousel
       showArrows={true}
@@ -21,15 +21,19 @@ export const CarouselComponent: React.FC<{ carousel_media: any }> = ({
     >
       {carousel_media.map((media: any) => (
         <div key={media.id} className="carousel-item">
-          <div className="aspect-content">
-            <Image
-              src={media.image_versions2.candidates[0].url}
-              alt={`carousel-${media.id}`}
-              width={media.original_width}
-              height={media.original_height}
-              className="carousel-image"
-            />
-          </div>
+          {media.video_versions.length > 0 ? (
+            <VideoComponent source={media.video_versions} maxHeight={`420px`} />
+          ) : (
+            <div className="aspect-content">
+              <Image
+                src={media.image_versions2.candidates[0].url}
+                alt={`carousel-${media.id}`}
+                width={media.original_width}
+                height={media.original_height}
+                className="carousel-image"
+              />
+            </div>
+          )}
         </div>
       ))}
     </Carousel>
