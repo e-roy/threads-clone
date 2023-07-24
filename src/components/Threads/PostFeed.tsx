@@ -108,12 +108,33 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
             height={40}
           />
           {line_type === "line" && (
-            <div className={`grid grid-cols-2 grow`}>
-              <div
-                className={`border-r-2 border-zinc-300 dark:border-zinc-700`}
-              />
-              <div />
-            </div>
+            <>
+              <div className={`grid grid-cols-2 grow`}>
+                <div
+                  className={`border-r-2 border-zinc-300 dark:border-zinc-700`}
+                />
+                <div />
+              </div>
+              {reply_facepile_users && (
+                <>
+                  <div className={`relative ml-4`}>
+                    {reply_facepile_users.slice(0, 2).map((user, index) => (
+                      <Image
+                        key={user.profile_pic_url}
+                        className={`rounded-full absolute border-2 ${
+                          index !== 0 && "-left-4 -z-10"
+                        }`}
+                        src={user.profile_pic_url}
+                        alt={`avatar`}
+                        width={24}
+                        height={24}
+                      />
+                    ))}
+                  </div>
+                  <div className={`h-5`} />
+                </>
+              )}
+            </>
           )}
           {line_type === "squiggle" && (
             <div className={`grid grid-cols-2 grow`}>
@@ -122,25 +143,6 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
               />
               <div />
             </div>
-          )}
-          {reply_facepile_users && (
-            <>
-              <div className={`relative ml-4`}>
-                {reply_facepile_users.slice(0, 2).map((user, index) => (
-                  <Image
-                    key={user.profile_pic_url}
-                    className={`rounded-full absolute border-2 ${
-                      index !== 0 && "-left-4 -z-10"
-                    }`}
-                    src={user.profile_pic_url}
-                    alt={`avatar`}
-                    width={24}
-                    height={24}
-                  />
-                ))}
-              </div>
-              <div className={`h-5`} />
-            </>
           )}
         </div>
         <div className={`w-full`}>

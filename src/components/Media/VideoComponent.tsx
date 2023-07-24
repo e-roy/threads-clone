@@ -5,7 +5,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-export const VideoComponent: React.FC<{ source: any }> = ({ source }) => {
+interface VideoComponentProps {
+  source: any;
+  maxHeight?: string;
+}
+
+export const VideoComponent: React.FC<VideoComponentProps> = ({
+  source,
+  maxHeight = "760px",
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const encodedSrc = `/api/video?videoUrl=${encodeURIComponent(source[0].url)}`;
@@ -47,7 +55,8 @@ export const VideoComponent: React.FC<{ source: any }> = ({ source }) => {
         <DialogTrigger asChild>
           <div key={`stable-key-${source}`}>
             <video
-              className={`rounded-lg max-h-[760px]`}
+              className={`rounded-lg m-auto`}
+              style={{ maxHeight }}
               ref={videoRef}
               src={encodedSrc}
               muted={muted}
