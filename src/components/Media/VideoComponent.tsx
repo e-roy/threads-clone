@@ -49,6 +49,8 @@ export const VideoComponent: React.FC<VideoComponentProps> = ({
     }
   };
 
+  // TODO: error - Warning: Prop `aria-controls` did not match. Server: "radix-:R358mqdl6cq:" Client: "radix-:Rcl2r9mkpj9:" from Dialog component.
+
   return (
     <div className={`relative rounded-lg border-2`}>
       <Dialog>
