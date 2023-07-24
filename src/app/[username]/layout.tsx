@@ -45,7 +45,9 @@ export default async function UserLayout({
   if (!userID) return <RateLimit />;
 
   return (
-    <div className={`max-w-[620px] flex flex-col justify-center m-auto`}>
+    <div
+      className={`max-w-[620px] flex flex-col justify-center m-auto px-2 md:px-0`}
+    >
       <Suspense fallback={<div>Loading Profile...</div>}>
         <UserProfile userID={userID} />
       </Suspense>

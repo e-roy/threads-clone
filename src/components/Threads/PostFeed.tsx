@@ -50,14 +50,14 @@ const Post = ({ post }: { post: ThreadType }) => {
 
   if (reposted_post && "id" in reposted_post)
     return (
-      <div className={`border-b mb-4 pb-4`}>
+      <div className={`border-b-2 mb-4 pb-4`}>
         <RepostInfo post={post} />
         <RepostedPost post={reposted_post as PostType} />
       </div>
     );
 
   return (
-    <div className={`border-b mb-4 pb-4`}>
+    <div className={`border-b-2 mb-4 pb-4`}>
       {post.thread_items.map((threadItem: ThreadItem) => (
         <PostItem threadItem={threadItem} key={threadItem.post.id} />
       ))}
@@ -167,6 +167,7 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
+                    id={`post-${post.code}`}
                     size={"icon"}
                     variant="outline"
                     className={`p-0.5 h-8 w-8 hover:scale-105 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800`}
@@ -186,9 +187,7 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
             </div>
           </div>
 
-          <Link href={`/t/${post.code}`}>
-            <PostContent post={post} />
-          </Link>
+          <PostContent post={post} />
 
           {quoted_post && <SharedCard post={quoted_post} />}
 

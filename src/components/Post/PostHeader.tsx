@@ -69,6 +69,7 @@ export const PostHeader = ({ thread }: { thread: Thread }) => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
+                  id={`post-${post.code}`}
                   size={"icon"}
                   variant="outline"
                   className={`p-0.5 h-8 w-8 hover:scale-105 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800`}
