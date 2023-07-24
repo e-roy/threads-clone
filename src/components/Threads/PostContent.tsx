@@ -7,6 +7,7 @@ import {
   VideoComponent,
 } from "@/components/Media";
 import { Post } from "threads-api";
+import Link from "next/link";
 
 interface IPostContentProps {
   post: Post;
@@ -27,9 +28,11 @@ export const PostContent: React.FC<IPostContentProps> = ({ post }) => {
 
   return (
     <>
-      <div className="whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words">
-        {caption?.text}
-      </div>
+      <Link href={`/t/${post.code}`}>
+        <div className="whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words">
+          {caption?.text}
+        </div>
+      </Link>
       <div className={`mt-2`}>
         {carousel_media ? (
           <CarouselComponent carousel_media={carousel_media} />
