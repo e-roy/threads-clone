@@ -62,7 +62,7 @@ export const SharedCard = ({ post }: SharedCardProps) => {
         )}
         {like_count > 0 && (
           <div className={`hover:underline hover:cursor-pointer`}>
-            {like_count} likes
+            {like_count.toLocaleString("en-US")} likes
           </div>
         )}
       </div>
