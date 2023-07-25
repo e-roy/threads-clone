@@ -17,12 +17,16 @@ export const CarouselComponent: React.FC<{ carousel_media: any }> = ({
       emulateTouch={true}
       showThumbs={false}
       showIndicators={false}
-      className="carousel-container rounded-lg border-2"
+      className="carousel-container rounded-lg"
     >
       {carousel_media.map((media: any) => (
         <div key={media.id} className="carousel-item">
           {media.video_versions.length > 0 ? (
-            <VideoComponent source={media.video_versions} maxHeight={`420px`} />
+            <VideoComponent
+              source={media.video_versions}
+              maxHeight={`420px`}
+              has_audio={media.has_audio}
+            />
           ) : (
             <div className="aspect-content">
               <Image

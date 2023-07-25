@@ -21,6 +21,7 @@ export const PostContent: React.FC<IPostContentProps> = ({ post }) => {
     image_versions2,
     user,
     text_post_app_info,
+    has_audio,
   } = post;
 
   const { candidates = [] } = image_versions2;
@@ -37,7 +38,7 @@ export const PostContent: React.FC<IPostContentProps> = ({ post }) => {
         {carousel_media ? (
           <CarouselComponent carousel_media={carousel_media} />
         ) : video_versions.length > 0 ? (
-          <VideoComponent source={video_versions} />
+          <VideoComponent source={video_versions} has_audio={has_audio} />
         ) : (
           candidates.length > 0 && (
             <div>

@@ -4,7 +4,6 @@ import Image from "next/image";
 
 type LinkPreviewAttachmentType = {
   display_url: string;
-  favicon_url: string;
   image_url: string;
   title: string;
   url: string;

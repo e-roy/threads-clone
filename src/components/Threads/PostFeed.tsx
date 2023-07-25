@@ -8,6 +8,7 @@ import {
   Thread as ThreadType,
   Post as PostType,
   ThreadItem,
+  ThreadsUser,
 } from "threads-api";
 import * as timeago from "timeago.js";
 
@@ -28,7 +29,6 @@ import { Repeat } from "lucide-react";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 import { PostContent } from "./PostContent";
-import { RepostedPost } from "./RepostedPost";
 
 export const PostFeed = ({ posts }: { posts: ThreadType[] }) => {
   // console.log(posts);
@@ -45,17 +45,6 @@ export const PostFeed = ({ posts }: { posts: ThreadType[] }) => {
 const Post = ({ post }: { post: ThreadType }) => {
   if (!post.thread_items[0]) return null;
 
-  const { quoted_post, reposted_post } =
-    post.thread_items[0].post.text_post_app_info.share_info;
-
-  if (reposted_post && "id" in reposted_post)
-    return (
-      <div className={`border-b-2 mb-4 pb-4`}>
-        <RepostInfo post={post} />
-        <RepostedPost post={reposted_post as PostType} />
-      </div>
-    );
-
   return (
     <div className={`border-b-2 mb-4 pb-4`}>
       {post.thread_items.map((threadItem: ThreadItem) => (
@@ -65,12 +54,12 @@ const Post = ({ post }: { post: ThreadType }) => {
   );
 };
 
-const RepostInfo = ({ post }: { post: ThreadType }) => (
+const RepostInfo = ({ user }: { user: ThreadsUser }) => (
   <div className={`flex space-x-4 mb-2 text-zinc-500`}>
     <div className={`ml-5 my-auto`}>
       <Repeat className={`h-4 w-4`} />
     </div>
-    <div>{post.thread_items[0].post.user.username} reposted</div>
+    <div>{user.username} reposted</div>
   </div>
 );
 
@@ -85,6 +74,17 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
 
   const { quoted_post, reposted_post } = post.text_post_app_info.share_info;
 
+  let user: ThreadsUser;
+  let showPost: PostType;
+
+  if (reposted_post && "id" in reposted_post) {
+    user = reposted_post.user;
+    showPost = reposted_post;
+  } else {
+    user = post.user;
+    showPost = post;
+  }
+
   const { toast } = useToast();
   const handleCopy = useCallback(
     (postId: string) => {
@@ -98,12 +98,15 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
 
   return (
     <>
+      {reposted_post && "id" in reposted_post && (
+        <RepostInfo user={post.user} />
+      )}
       <div className={`flex space-x-4 mt-2`}>
         <div className={`flex flex-col space-y-4`}>
           <Image
             className="rounded-full"
-            src={post.user.profile_pic_url}
-            alt={post.user.username}
+            src={user.profile_pic_url}
+            alt={user.username}
             width={40}
             height={40}
           />
@@ -150,8 +153,8 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
             <div
               className={`flex font-semibold text-zinc-900 dark:text-zinc-100 hover:underline my-auto`}
             >
-              <Link href={`/${post.user.username}`}>{post.user.username}</Link>
-              {post.user.is_verified && (
+              <Link href={`/${user.username}`}>{user.username}</Link>
+              {user.is_verified && (
                 <span
                   className={`m-auto pl-1 text-zinc-100 dark:text-zinc-900`}
                 >
@@ -189,7 +192,7 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
             </div>
           </div>
 
-          <PostContent post={post} />
+          <PostContent post={showPost} />
 
           {quoted_post && <SharedCard post={quoted_post} />}
 
@@ -209,7 +212,7 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
               )}
               {post.like_count > 0 && (
                 <div className={`hover:underline hover:cursor-pointer`}>
-                  {post.like_count} likes
+                  {post.like_count.toLocaleString("en-US")} likes
                 </div>
               )}
             </div>

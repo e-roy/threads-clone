@@ -47,27 +47,25 @@ export const SharedCard = ({ post }: SharedCardProps) => {
         </div>
       </div>
 
-      <Link href={`/t/${code}`}>
-        <PostContent post={post} />
+      <PostContent post={post} />
 
-        <div
-          className={`flex space-x-4 mt-2 mb-2 text-sm text-zinc-400 dark:text-zinc-400`}
-        >
-          {text_post_app_info.direct_reply_count > 0 && (
-            <div className={`hover:underline hover:cursor-pointer`}>
-              {text_post_app_info.direct_reply_count} replies
-            </div>
-          )}
-          {text_post_app_info.direct_reply_count > 0 && post.like_count > 0 && (
-            <span className={``}>·</span>
-          )}
-          {like_count > 0 && (
-            <div className={`hover:underline hover:cursor-pointer`}>
-              {like_count} likes
-            </div>
-          )}
-        </div>
-      </Link>
+      <div
+        className={`flex space-x-4 mt-2 mb-2 text-sm text-zinc-400 dark:text-zinc-400`}
+      >
+        {text_post_app_info.direct_reply_count > 0 && (
+          <div className={`hover:underline hover:cursor-pointer`}>
+            {text_post_app_info.direct_reply_count} replies
+          </div>
+        )}
+        {text_post_app_info.direct_reply_count > 0 && post.like_count > 0 && (
+          <span className={``}>·</span>
+        )}
+        {like_count > 0 && (
+          <div className={`hover:underline hover:cursor-pointer`}>
+            {like_count} likes
+          </div>
+        )}
+      </div>
     </Card>
   );
 };

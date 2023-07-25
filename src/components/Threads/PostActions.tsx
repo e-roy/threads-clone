@@ -32,17 +32,17 @@ export const PostActions = () => {
       onClick: handleMessageCircleClick,
     },
     {
-      Icon: Send,
-      onClick: handleSendClick,
-    },
-    {
       Icon: Repeat,
       onClick: handleRepeatClick,
+    },
+    {
+      Icon: Send,
+      onClick: handleSendClick,
     },
   ];
 
   return (
-    <div className="flex space-x-4 text-zinc-900 dark:text-zinc-200 mt-2">
+    <div className="flex space-x-1 text-zinc-900 dark:text-zinc-100 mt-2">
       {icons.map(({ Icon, onClick }, index) => (
         <Button
           key={index}
@@ -51,7 +51,7 @@ export const PostActions = () => {
           className="p-0.5 h-8 w-8 hover:scale-105 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
           onClick={onClick}
         >
-          <Icon className="hover:scale-105 duration-300" />
+          <Icon className="hover:scale-105 duration-300 h-5 w-5" />
         </Button>
       ))}
     </div>
