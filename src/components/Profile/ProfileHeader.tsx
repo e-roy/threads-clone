@@ -70,14 +70,14 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
       <div className="text-sm text-zinc-400 dark:text-zinc-400 mt-4 flex w-full">
         <div className={`w-full`}>
           <span className={`hover:underline cursor-pointer`}>
-            {formatFollowCount(user.follower_count)} followers
+            {formatFollowCount(user.follower_count || 0)} followers
           </span>
-          {user.bio_links[0] && user.bio_links[0].url && (
+          {user?.bio_links && user?.bio_links[0] && user.bio_links[0].url && (
             <>
               {" "}
               ·{" "}
               <a
-                href={user.bio_links[0].url}
+                href={user?.bio_links[0].url}
                 target="_blank"
                 rel="noreferrer noopener"
                 className={`hover:underline w-full`}
