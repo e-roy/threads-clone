@@ -2,6 +2,15 @@
 
 > Unofficial, Web App for Meta's [Threads](https://threads.net).
 
+
+https://github.com/e-roy/threads-clone/assets/70700747/c44c663d-ed93-4b49-8a0f-afa2be4a5b39
+
+This Unofficial Web App uses the Unofficial [threads-api](https://github.com/junhoyeo/threads-api) by [junhoyeo](https://github.com/junhoyeo)
+
+## Warning
+
+Because this is an Unofficial app using an Unofficial API, this app will experience errors with rate limiting. 
+
 ## Getting Started
 
 First, install dependencies:
