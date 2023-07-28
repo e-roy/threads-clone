@@ -24,13 +24,16 @@ export const LinkPreviewAttachment = ({
   return (
     <div
       className={`border-2 rounded-lg mb-2 cursor-pointer`}
+      style={{
+        width: "400px",
+      }}
       onClick={handleLinkClick}
     >
       <div
         className={`relative rounded-t-lg`}
         style={{
           overflow: "hidden",
-          height: "250px",
+          height: "175px",
         }}
       >
         <Image

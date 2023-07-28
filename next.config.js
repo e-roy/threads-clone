@@ -8,6 +8,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "static.cdninstagram.com",
+      },
+      {
+        protocol: "https",
         hostname: "**.fbcdn.net",
       },
     ],

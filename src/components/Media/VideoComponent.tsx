@@ -2,23 +2,53 @@
 // components/Media/VideoComponent.tsx
 
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Volume2, VolumeX } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { IMedia } from "@/types";
 
 interface VideoComponentProps {
-  source: any;
+  media: IMedia;
   maxHeight?: string;
-  has_audio?: boolean;
 }
 
 export const VideoComponent: React.FC<VideoComponentProps> = ({
-  source,
-  maxHeight = "760px",
-  has_audio = true,
+  media,
+  maxHeight = "480px",
 }) => {
+  // console.log("media ====>", media);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
-  const encodedSrc = `/api/video?videoUrl=${encodeURIComponent(source[0].url)}`;
+
+  const [videoSrc, setVideoSrc] = useState(
+    `/api/video?videoUrl=${encodeURIComponent(media.video_versions[0].url)}`
+  );
+  const [fallbackImg, setFallbackImg] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [videoVersionIndex, setVideoVersionIndex] = useState(0);
+
+  const handleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setMuted(videoRef.current.muted);
+    }
+  };
+
+  const handleError = () => {
+    if (media.video_versions[videoVersionIndex + 1]) {
+      // Try the next video version
+      setVideoVersionIndex(videoVersionIndex + 1);
+      setVideoSrc(
+        `/api/video?videoUrl=${encodeURIComponent(
+          media.video_versions[videoVersionIndex + 1].url
+        )}`
+      );
+    } else if (media.image_versions2[0]) {
+      // No more video versions - use fallback image
+      setIsError(true);
+      setFallbackImg(media.image_versions2[0].url);
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,40 +66,53 @@ export const VideoComponent: React.FC<VideoComponentProps> = ({
       }
     );
 
-    videoRef.current && observer.observe(videoRef.current);
+    if (videoRef.current) {
+      videoRef.current.addEventListener("error", handleError);
+      observer.observe(videoRef.current);
+    }
 
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      videoRef.current && observer.unobserve(videoRef.current);
+      if (videoRef.current) {
+        videoRef.current.removeEventListener("error", handleError);
+        observer.unobserve(videoRef.current);
+      }
     };
-  }, []);
+  }, [videoSrc, isError, videoVersionIndex]);
 
-  const handleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setMuted(videoRef.current.muted);
-    }
-  };
-
-  // TODO: error - Warning: Prop `aria-controls` did not match. Server: "radix-:R358mqdl6cq:" Client: "radix-:Rcl2r9mkpj9:" from Dialog component.
+  if (isError) {
+    console.log("isError ====>", isError);
+    return (
+      <Image
+        src={fallbackImg}
+        alt="Fallback Image"
+        width={media.original_width}
+        height={media.original_height}
+        className={`rounded-lg`}
+      />
+    );
+  }
 
   return (
     <div className={`relative rounded-lg`}>
       <Dialog>
         <DialogTrigger asChild>
-          <div className="relative w-full h-full" key={`stable-key-${source}`}>
-            <div className="flex justify-center">
+          <div
+            className="relative h-full"
+            key={`stable-key-${media.video_versions[0].url}`}
+            aria-controls={`stable-key-${media.video_versions[0].url}`}
+          >
+            <div className="flex">
               <div className="relative">
                 <video
-                  className="rounded-lg border-2"
+                  className="rounded-lg border"
                   style={{ maxHeight }}
                   ref={videoRef}
-                  src={encodedSrc}
+                  src={videoSrc}
                   muted={muted}
                   playsInline
                   loop
                 />
-                {has_audio && (
+                {media.has_audio && (
                   <button
                     onClick={handleMute}
                     className="absolute bottom-4 right-4 bg-zinc-500 bg-opacity-30 rounded-full p-1"
@@ -84,13 +127,13 @@ export const VideoComponent: React.FC<VideoComponentProps> = ({
         <DialogContent className="h-screen">
           <video
             className={`h-screen m-auto`}
-            src={encodedSrc}
+            src={videoSrc}
             muted={muted}
             playsInline
             loop
             autoPlay
           />
-          {has_audio && (
+          {media.has_audio && (
             <button
               onClick={handleMute}
               className={`absolute bottom-4 right-4 bg-zinc-500 bg-opacity-30 rounded-full p-1 outline-none`}

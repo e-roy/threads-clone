@@ -27,10 +27,20 @@ export async function GET(req: NextRequest, res: NextResponse) {
     };
 
     return new Response(response.data, init);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "An error occurred while fetching the video." },
-      { status: 500 }
-    );
+  } catch (error: any) {
+    if (error.response && error.response.status === 403) {
+      return NextResponse.json(
+        {
+          error:
+            "Received 403 error. Please check your authentication details.",
+        },
+        { status: 403 }
+      );
+    } else {
+      return NextResponse.json(
+        { error: "An error occurred while fetching the video." },
+        { status: 500 }
+      );
+    }
   }
 }

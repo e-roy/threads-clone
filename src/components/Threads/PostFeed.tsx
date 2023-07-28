@@ -196,27 +196,25 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
 
           {quoted_post && <SharedCard post={quoted_post} />}
 
-          <Link href={`/t/${post.code}`}>
-            <PostActions />
+          <PostActions />
 
-            <div
-              className={`flex space-x-4 mt-2 mb-4 text-zinc-400 dark:text-zinc-400`}
-            >
-              {should_show_replies_cta && (
-                <div className={`hover:underline hover:cursor-pointer`}>
-                  {view_replies_cta_string}
-                </div>
-              )}
-              {should_show_replies_cta && post.like_count > 0 && (
-                <span className={``}>·</span>
-              )}
-              {post.like_count > 0 && (
-                <div className={`hover:underline hover:cursor-pointer`}>
-                  {post.like_count.toLocaleString("en-US")} likes
-                </div>
-              )}
-            </div>
-          </Link>
+          <div
+            className={`flex space-x-4 mt-2 mb-4 text-zinc-400 dark:text-zinc-400`}
+          >
+            {should_show_replies_cta && (
+              <div className={`hover:underline hover:cursor-pointer`}>
+                {view_replies_cta_string}
+              </div>
+            )}
+            {should_show_replies_cta && post.like_count > 0 && (
+              <span className={``}>·</span>
+            )}
+            {post.like_count > 0 && (
+              <div className={`hover:underline hover:cursor-pointer`}>
+                {post.like_count.toLocaleString("en-US")} likes
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>

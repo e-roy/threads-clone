@@ -76,25 +76,3 @@
   }
 
 }
-
-.carousel-container {
-  max-height: 500px;
-  /* adjust as needed */
-  overflow: visible;
-}
-
-.aspect-content {
-  position: relative;
-  overflow: hidden;
-  padding-top: 75%;
-  /* for 4:3 aspect ratio change as per your requirement */
-}
-
-.carousel-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-}
