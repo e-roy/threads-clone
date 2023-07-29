@@ -10,7 +10,7 @@ import {
   ThreadItem,
   ThreadsUser,
 } from "threads-api";
-import * as timeago from "timeago.js";
+import { formatTime } from "@/lib/format-time";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -163,11 +163,9 @@ const PostItem = ({ threadItem }: { threadItem: ThreadItem }) => {
               )}
             </div>
             <div
-              className={`font-light text-zinc-600 dark:text-zinc-400 flex space-x-4`}
+              className={`font-light text-zinc-600 dark:text-zinc-400 flex space-x-2`}
             >
-              <span>
-                {timeago.format((post.taken_at * 1000) as timeago.TDate)}
-              </span>
+              <span>{formatTime(post.taken_at * 1000)}</span>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

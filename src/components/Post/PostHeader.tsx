@@ -15,7 +15,7 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 
-import * as timeago from "timeago.js";
+import { formatTime } from "@/lib/format-time";
 import { useCallback } from "react";
 
 export const PostHeader = ({ thread }: { thread: Thread }) => {
@@ -62,9 +62,7 @@ export const PostHeader = ({ thread }: { thread: Thread }) => {
           <div
             className={`font-light text-zinc-600 dark:text-zinc-400 flex space-x-4`}
           >
-            <span>
-              {timeago.format((post.taken_at * 1000) as timeago.TDate)}
-            </span>
+            <span>{formatTime(post.taken_at * 1000)}</span>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

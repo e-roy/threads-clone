@@ -4,11 +4,13 @@ import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { VideoComponent } from "./VideoComponent";
+import { useTailwindBreakpoint } from "@/hooks/use-tailwind-breakpoint";
 
 export const CarouselComponent: React.FC<{ carousel_media: any }> = ({
   carousel_media,
 }) => {
-  const maxHeight = 330;
+  const breakpoint = useTailwindBreakpoint();
+  const maxHeight = breakpoint === "xs" ? 180 : 330;
 
   return (
     <Carousel

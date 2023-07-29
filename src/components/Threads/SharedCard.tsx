@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Post } from "threads-api";
-import { format, TDate } from "timeago.js";
+import { formatTime } from "@/lib/format-time";
 import { Card } from "@/components/ui/card";
 import { VerifiedIcon } from "@/components/icons/VerifiedIcon";
 import { PostContent } from "./PostContent";
@@ -42,7 +42,7 @@ export const SharedCard = ({ post }: SharedCardProps) => {
           <div
             className={`font-light text-zinc-600 dark:text-zinc-400 flex space-x-4`}
           >
-            <span>{format((taken_at * 1000) as TDate)}</span>
+            <span>{formatTime(taken_at * 1000)}</span>
           </div>
         </div>
       </div>

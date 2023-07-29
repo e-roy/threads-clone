@@ -1,6 +1,7 @@
 // components/Media/LinkPreviewAttachment.tsx
 
 import Image from "next/image";
+import { useTailwindBreakpoint } from "@/hooks/use-tailwind-breakpoint";
 
 type LinkPreviewAttachmentType = {
   display_url: string;
@@ -17,6 +18,7 @@ export const LinkPreviewAttachment = ({
   linkPreviewAttachment,
 }: LinkPreviewAttachmentProps) => {
   //   console.log("linkPreviewAttachment", linkPreviewAttachment);
+  const breakpoint = useTailwindBreakpoint();
 
   const handleLinkClick = () => {
     window.open(linkPreviewAttachment.url, "_blank");
@@ -25,7 +27,7 @@ export const LinkPreviewAttachment = ({
     <div
       className={`border-2 rounded-lg mb-2 cursor-pointer`}
       style={{
-        width: "400px",
+        width: breakpoint === "xs" ? "300px" : "400px",
       }}
       onClick={handleLinkClick}
     >

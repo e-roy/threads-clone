@@ -49,7 +49,7 @@ export default async function Page({
         )}
         {post.like_count > 0 && (
           <div className={`hover:underline hover:cursor-pointer mb-4`}>
-            {post.like_count} likes
+            {post.like_count.toLocaleString("en-US")} likes
           </div>
         )}
       </div>

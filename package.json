@@ -1,6 +1,10 @@
 {
   "name": "threads-clone",
   "version": "0.1.0",
+  "description": "Unofficial, Web app for [Threads](https://threads.net).",
+  "author": "Eric <contact@fullstackeric.com>",
+  "repository": "https://github.com/e-roy/threads-clone",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",

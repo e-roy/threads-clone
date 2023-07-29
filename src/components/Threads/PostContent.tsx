@@ -45,7 +45,7 @@ export const PostContent: React.FC<IPostContentProps> = ({ post }) => {
   return (
     <>
       <Link href={`/t/${post.code}`}>
-        <div className="whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words text-ellipsis">
+        <div className="whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words text-sm sm:text-base">
           {caption?.text}
         </div>
       </Link>
