@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { Providers } from "@/providers";
 import { Toaster } from "@/components/ui/toaster";
 import { Header } from "@/components/Header";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <Analytics />
         </Providers>
         <Toaster />
       </body>
