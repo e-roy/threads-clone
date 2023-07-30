@@ -8,6 +8,9 @@ import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
+// set debug to true to enable debug mode
+const debug = process.env.NODE_ENV === "development" ? false : false;
+
 export const metadata: Metadata = {
   title: "Threads Clone",
   description: "Threads Clone",
@@ -27,7 +30,7 @@ export default function RootLayout({
           {children}
         </Providers>
         <Toaster />
-        <Analytics />
+        <Analytics debug={debug} />
       </body>
     </html>
   );
