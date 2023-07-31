@@ -7,8 +7,11 @@ import {
   VideoComponent,
 } from "@/components/Media";
 import { Post } from "threads-api";
-import Link from "next/link";
 import { IMedia, CanidatesType } from "@/types";
+
+import { useRouter } from "next/navigation";
+import { LinkUrl, LinkProfile } from "@/lib/LinkHighlights";
+import { useCallback } from "react";
 
 interface IPostContentProps {
   post: Post;
@@ -42,13 +45,28 @@ export const PostContent: React.FC<IPostContentProps> = ({ post }) => {
   const { candidates = [] } = image_versions2;
   const { link_preview_attachment = null } = text_post_app_info;
 
+  const router = useRouter();
+
+  const handleLinkToPost = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      router.push(`/t/${post.code}`);
+    },
+    [router, post.code]
+  );
+
   return (
     <>
-      <Link href={`/t/${post.code}`}>
-        <div className="whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words text-sm sm:text-base">
-          {caption?.text}
-        </div>
-      </Link>
+      <div
+        onClick={handleLinkToPost}
+        className="whitespace-pre-line text-zinc-800 dark:text-zinc-200 break-words text-sm sm:text-base cursor-pointer"
+      >
+        <LinkUrl className="text-blue-600 hover:text-blue-500 z-50">
+          <LinkProfile className="text-blue-600 hover:text-blue-500 z-20 cursor-pointer">
+            {caption?.text}
+          </LinkProfile>
+        </LinkUrl>
+      </div>
       <div className={`mt-2`}>
         {carousel_media ? (
           <CarouselComponent carousel_media={carousel_media} />
