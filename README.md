@@ -3,7 +3,10 @@
 > Unofficial, Web App for Meta's [Threads](https://threads.net).
 
 
-https://github.com/e-roy/threads-clone/assets/70700747/c44c663d-ed93-4b49-8a0f-afa2be4a5b39
+
+https://github.com/e-roy/threads-clone/assets/70700747/360c5d36-a1c0-4301-b34e-a86c551c311c
+
+
 
 This Unofficial Web App uses the Unofficial [threads-api](https://github.com/junhoyeo/threads-api) by [junhoyeo](https://github.com/junhoyeo)
 
