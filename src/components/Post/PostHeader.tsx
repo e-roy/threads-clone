@@ -17,6 +17,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 import { formatTime } from "@/lib/format-time";
 import { useCallback } from "react";
+import { SharedCard } from "@/components/Threads/SharedCard";
 
 export const PostHeader = ({ thread }: { thread: Thread }) => {
   const { toast } = useToast();
@@ -29,28 +30,37 @@ export const PostHeader = ({ thread }: { thread: Thread }) => {
     },
     [toast]
   );
-  // console.log("thread", thread);
 
   const post = thread.thread_items[0].post;
+  let quoted_post = null;
 
   if (!post) return null;
+  if (post?.text_post_app_info?.share_info) {
+    quoted_post = post.text_post_app_info.share_info.quoted_post;
+  }
+
+  const { user } = post;
 
   return (
     <div>
       <div className={`flex justify-between`}>
         <div className={`flex mb-2`}>
-          <Image
-            className="rounded-full"
-            src={post.user.profile_pic_url}
-            alt={post.user.username}
-            width={40}
-            height={40}
-          />
+          {user && (
+            <Image
+              className="rounded-full"
+              src={user.profile_pic_url}
+              alt={user.username}
+              width={40}
+              height={40}
+            />
+          )}
           <div
             className={`flex font-semibold text-zinc-900 dark:text-zinc-100 hover:underline pl-4 m-auto`}
           >
-            <Link href={`/${post.user.username}`}>{post.user.username}</Link>
-            {post.user.is_verified && (
+            <Link href={`/${user?.username || ""}`}>
+              {user?.username || ""}
+            </Link>
+            {post?.user?.is_verified && (
               <span className={`m-auto pl-1 text-zinc-100 dark:text-zinc-900`}>
                 <VerifiedIcon />
               </span>
@@ -88,6 +98,7 @@ export const PostHeader = ({ thread }: { thread: Thread }) => {
         </div>
       </div>
       <PostContent post={post} />
+      {quoted_post && <SharedCard post={quoted_post} />}
     </div>
   );
 };

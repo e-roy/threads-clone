@@ -2,6 +2,8 @@ export type Theme = "light" | "dark";
 
 export type CanidatesType = {
   url: string;
+  width: number;
+  height: number;
 };
 
 type VideoVersionType = {
