@@ -1,18 +1,15 @@
 # Threads Web App Clone
 
+> **Warning**<br />
+> This repository, which uses an UNOFFICAL "threads-api", has been archived and will no longer receive updates or maintenance.\*\*
+>
+> This was developed for educational and research purposes only. The author of this repository does not support or condone any unethical or illegal activities.
+
 > Unofficial, Web App for Meta's [Threads](https://threads.net).
-
-
 
 https://github.com/e-roy/threads-clone/assets/70700747/360c5d36-a1c0-4301-b34e-a86c551c311c
 
-
-
 This Unofficial Web App uses the Unofficial [threads-api](https://github.com/junhoyeo/threads-api) by [junhoyeo](https://github.com/junhoyeo)
-
-## Warning
-
-Because this is an Unofficial app using an Unofficial API, this app will experience errors with rate limiting. 
 
 ## Getting Started
 
